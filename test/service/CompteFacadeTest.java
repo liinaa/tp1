@@ -18,7 +18,8 @@ import static org.junit.Assert.*;
  * @author poste HP
  */
 public class CompteFacadeTest {
-    
+            CompteFacade instance = new CompteFacade();
+
     public CompteFacadeTest() {
     }
     
@@ -44,12 +45,10 @@ public class CompteFacadeTest {
     @Test
     public void testOuvrirCompte() {
         System.out.println("ouvrirCompte");
-        String rib = "";
-        double soldeInitial = 0.0;
-        CompteFacade instance = new CompteFacade();
+       /* String rib = "FF2";
+        double soldeInitial = 300.0;
         instance.ouvrirCompte(rib, soldeInitial);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        // TODO review the generated test code and remove the default call to fail. */
     }
 
     /**
@@ -59,12 +58,10 @@ public class CompteFacadeTest {
     public void testFermerCompte() {
         System.out.println("fermerCompte");
         Compte compte = null;
-        CompteFacade instance = new CompteFacade();
         boolean expResult = false;
         boolean result = instance.fermerCompte(compte);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -73,11 +70,10 @@ public class CompteFacadeTest {
     @Test
     public void testCrediter() {
         System.out.println("crediter");
-        Compte compte = null;
+        Compte compte = instance.find("EE2");
         double montantCredit = 0.0;
         boolean simuler = false;
-        CompteFacade instance = new CompteFacade();
-        int expResult = 0;
+        int expResult = 1;
         int result = instance.crediter(compte, montantCredit, simuler);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
@@ -90,11 +86,10 @@ public class CompteFacadeTest {
     @Test
     public void testDebiter() {
         System.out.println("debiter");
-        Compte compte = null;
+        Compte compte = instance.find("EE5");
         double montant = 0.0;
         boolean simuler = false;
-        CompteFacade instance = new CompteFacade();
-        int expResult = 0;
+        int expResult = 1;
         int result = instance.debiter(compte, montant, simuler);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
@@ -107,15 +102,27 @@ public class CompteFacadeTest {
     @Test
     public void testTransferer() {
         System.out.println("transferer");
-        Compte compteSource = new Compte(rib, Double.NaN, true, 0);
-        Compte compteDestination = null;
+        Compte compteSource = instance.find("EE1");
+        Compte compteDestination = instance.find("EE0");
         double montant = 0.0;
-        CompteFacade instance = new CompteFacade();
-        int expResult = 0;
+        int expResult = 1;
         int result = instance.transferer(compteSource, compteDestination, montant);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-    
+    public void testFindByClasse(){
+        System.out.println("FindByClasse");
+        System.out.println(instance.findByClasse('A'));
+
+    }
+    public void testFindBySolde(){
+         System.out.println("FindBySolde");
+    }
+    public void testDeleteByRib(){
+         System.out.println("DeleteByRib");
+         String rib1 = "EE1";
+         int resultat = instance.deleteByRib(rib1);
+
+    }
 }

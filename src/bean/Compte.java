@@ -25,6 +25,16 @@ public class Compte implements Serializable {
     private boolean ouvert;
     private char categorie;
 
+    public Compte() {
+    }
+
+    public Compte(String rib, Double solde) {
+        this.rib = rib;
+        this.solde = solde;
+    }
+    
+    
+
     public Compte(String rib, Double solde, boolean ouvert, char categorie) {
         this.rib = rib;
         this.solde = solde;

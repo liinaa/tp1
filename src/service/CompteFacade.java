@@ -6,6 +6,8 @@
 package service;
 
 import bean.Compte;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -33,10 +35,12 @@ public class CompteFacade extends AbstractFacade<Compte> {
         create(new Compte(rib, soldeInitial, true, categorie));
 
     }
+   
 
     public boolean fermerCompte(Compte compte) {
         if (compte != null && compte.getSolde() == 0) {
             compte.setOuvert(false);
+            edit(compte);
             return true;
         } else {
             return false;
@@ -92,5 +96,36 @@ public class CompteFacade extends AbstractFacade<Compte> {
             return resCredit;
         }
         return resDebit;
+    }
+    public List<Compte> findByClasseDump(char classe){
+        List<Compte> comptes = findAll();
+        List<Compte> compteResult = new ArrayList<Compte>();
+        for (Compte compte : comptes) {
+            if(compte.getCategorie()==classe){
+                compteResult.add(compte);
+            }
+        }
+        return compteResult;
+    }
+    public List<Compte> findByClasse(char classe){
+      
+        return getEntityManager().createQuery("SELECT  c FROM Compte c WHERE c.categorie ='"+classe+"'").getResultList();
+    }
+    public List<Compte> findBySolde(double soldeMin){
+        return getEntityManager().createQuery("SELECT c FROM Compte c WHERE c.solde >= '"+soldeMin+"'").getResultList();
+    }
+    public int deleteByRib(String rib){
+        return getEntityManager().createQuery("DELETE FROM Compte c WHERE c.rib = '"+rib+"'").executeUpdate();
+
+    }
+    
+    public static void main(String[] args) {
+        CompteFacade compteFacade = new CompteFacade();
+       /* for (int i = 2; i < 10; i++) {
+            compteFacade.ouvrirCompte("EE"+i, i*100.0);
+        } */
+         for (int i = 5; i < 10; i++) {
+            compteFacade.ouvrirCompte("EF"+i, i*400.0);
+        }
     }
 }
