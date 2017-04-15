@@ -6,10 +6,13 @@
 package bean;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -22,7 +25,58 @@ public class Operation implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date dateOperation;
+    private int type;
+    private double montant;
+    @ManyToOne
+    private Compte compte ;
 
+    public Operation() {
+    }
+
+    public Operation( Date dateOperation, int type, double montant) {
+        this.dateOperation = dateOperation;
+        this.type = type;
+        this.montant = montant;
+    }
+    
+    public Date getDateOperation() {
+        return dateOperation;
+    }
+
+    public void setDateOperation(Date dateOperation) {
+        this.dateOperation = dateOperation;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public double getMontant() {
+        return montant;
+    }
+
+    public void setMontant(double montant) {
+        this.montant = montant;
+    }
+
+    public Compte getCompte() {
+        if(compte==null)
+            compte= new Compte();
+        return compte;
+    }
+
+    public void setCompte(Compte compte) {
+        this.compte = compte;
+    }
+
+    
+    
     public Long getId() {
         return id;
     }

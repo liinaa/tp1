@@ -6,6 +6,8 @@
 package service;
 
 import bean.Compte;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -45,10 +47,10 @@ public class CompteFacadeTest {
     @Test
     public void testOuvrirCompte() {
         System.out.println("ouvrirCompte");
-       /* String rib = "FF2";
-        double soldeInitial = 300.0;
-        instance.ouvrirCompte(rib, soldeInitial);
-        // TODO review the generated test code and remove the default call to fail. */
+        for (int i = 0; i < 10; i++) {
+            instance.ouvrirCompte("EE"+i, i*400.0);
+        }
+        // TODO review the generated test code and remove the default call to fail. 
     }
 
     /**
@@ -77,7 +79,6 @@ public class CompteFacadeTest {
         int result = instance.crediter(compte, montantCredit, simuler);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -93,7 +94,6 @@ public class CompteFacadeTest {
         int result = instance.debiter(compte, montant, simuler);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -109,20 +109,28 @@ public class CompteFacadeTest {
         int result = instance.transferer(compteSource, compteDestination, montant);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
+   @Test 
     public void testFindByClasse(){
         System.out.println("FindByClasse");
         System.out.println(instance.findByClasse('A'));
 
     }
+       @Test 
     public void testFindBySolde(){
          System.out.println("FindBySolde");
+         List<Compte> l = new ArrayList<Compte>();
+         l = instance.findBySolde(400.0);
+         for (Compte compte : l) {
+             System.out.println(compte.toString());
+            
+        }
     }
+       @Test 
     public void testDeleteByRib(){
          System.out.println("DeleteByRib");
          String rib1 = "EE1";
-         int resultat = instance.deleteByRib(rib1);
+         instance.deleteByRib(rib1);
 
     }
 }

@@ -6,7 +6,9 @@
 package service;
 
 import bean.Compte;
+import bean.Operation;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -48,40 +50,14 @@ public class CompteFacade extends AbstractFacade<Compte> {
     }
 
     public int crediter(Compte compte, double montantCredit, boolean simuler) {
-
-        if (compte == null || compte.isOuvert() == false) {
-            return -1;
-        } else {
-            if (simuler == false) {
-                compte.setSolde(montantCredit + compte.getSolde());
-                edit(compte);
-            }
-            return 1;
-        }
+        
+    Operation operation = new Operation(new Date(), 1, montantCredit);
+    return new OperationFacade().save(operation, compte, simuler);
     }
 
-    public int debiter(Compte compte, double montant, boolean simuler) {
-        if (compte == null) {
-
-            return -1;
-        } else if (compte.isOuvert() == false) {
-
-            return -2;
-        } else if (compte.getSolde() < montant) {
-
-            return -3;
-        } else if (compte.getSolde() < 100) {
-            return -4;
-        } else if (montant >= 6000) {
-
-            return -5;
-        } else {
-            if (simuler == false) {
-                compte.setSolde(compte.getSolde() - montant);
-                edit(compte);
-            }
-            return 1;
-        }
+    public int debiter(Compte compte, double montantCredit, boolean simuler) {
+        Operation operation = new Operation(new Date(), 2, montantCredit);
+        return new OperationFacade().save(operation, compte, simuler);
     }
 
     public int transferer(Compte compteSource, Compte compteDestination, double montant) {
@@ -114,11 +90,10 @@ public class CompteFacade extends AbstractFacade<Compte> {
     public List<Compte> findBySolde(double soldeMin){
         return getEntityManager().createQuery("SELECT c FROM Compte c WHERE c.solde >= '"+soldeMin+"'").getResultList();
     }
-    public int deleteByRib(String rib){
-        return getEntityManager().createQuery("DELETE FROM Compte c WHERE c.rib = '"+rib+"'").executeUpdate();
-
+    public void deleteByRib(String rib){
+       // return getEntityManager().createQuery("DELETE FROM Compte c WHERE c.rib = '"+rib+"'").executeUpdate();
+        remove(new  Compte(rib, 0.0));
     }
-    
     public static void main(String[] args) {
         CompteFacade compteFacade = new CompteFacade();
        /* for (int i = 2; i < 10; i++) {
@@ -127,5 +102,6 @@ public class CompteFacade extends AbstractFacade<Compte> {
          for (int i = 5; i < 10; i++) {
             compteFacade.ouvrirCompte("EF"+i, i*400.0);
         }
-    }
+    } 
+     
 }

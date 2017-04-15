@@ -6,10 +6,13 @@
 package bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -24,7 +27,20 @@ public class Compte implements Serializable {
     private Double solde;
     private boolean ouvert;
     private char categorie;
+    @OneToMany(mappedBy = "compte")
+    private List<Operation> operations;
 
+    public List<Operation> getOperations() {
+        if(operations==null)
+            operations= new ArrayList();
+        return operations;
+    }
+
+    public void setOperations(List<Operation> operations) {
+        this.operations = operations;
+    }
+
+    
     public Compte() {
     }
 
